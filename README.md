@@ -46,4 +46,4 @@ Si encontrás un problema de seguridad, escribí a <info@aldosoria.com.ar> en lu
 
 ## Derechos
 
-© Soria Perfomance. Todos los derechos reservados. El código se publica para consulta; los textos, imágenes, cursos y marcas pertenecen a sus respectivos dueños y no pueden reutilizarse sin autorización. Ver [LICENSE](LICENSE).
+Código © 2026 Jorge Martinez. Todos los derechos reservados. Se publica solo para consulta. Los textos, imágenes, cursos y marcas pertenecen a Soria Perfomance o a sus respectivos dueños y no pueden reutilizarse sin autorización. Ver [LICENSE](LICENSE).
