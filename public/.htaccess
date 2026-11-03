@@ -1,0 +1,80 @@
+Options -MultiViews -Indexes
+ServerSignature Off
+AddDefaultCharset UTF-8
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Forzar HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1)
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Bloquear archivos ocultos (.env, .git, .htaccess...) salvo .well-known
+    RewriteRule (^|/)\.(?!well-known/) - [F,L]
+
+    # Bloquear copias, logs y archivos de configuracion
+    RewriteRule \.(env|log|ini|sql|sqlite|bak|old|orig|swp|dist|lock|yml|yaml|sh|md)$ - [F,L,NC]
+    RewriteRule (^|/)(composer\.(json|lock)|package(-lock)?\.json|artisan|phpunit\.xml)$ - [F,L,NC]
+
+    # El unico PHP ejecutable es index.php
+    RewriteCond %{REQUEST_URI} !^/index\.php
+    RewriteRule \.(php[0-9]?|phtml|phar|pht|phps|cgi|pl|py|asp|aspx|jsp|shtml)$ - [F,L,NC]
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Segunda barrera por si mod_rewrite no estuviera activo
+<FilesMatch "\.(php[0-9]?|phtml|phar|pht|phps)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+<Files "index.php">
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+</Files>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+
+    <FilesMatch "\.(css|js|jpg|jpeg|png|gif|webp|svg|ico|woff2?|ttf|eot)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml text/javascript application/javascript application/json application/xml image/svg+xml font/ttf font/otf
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 month"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>

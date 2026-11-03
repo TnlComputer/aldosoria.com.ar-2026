@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /mercadopago
+Disallow: /paypal
+Disallow: /livewire
