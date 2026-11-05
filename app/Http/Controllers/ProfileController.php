@@ -19,8 +19,9 @@ class ProfileController extends Controller
   public function edit(Request $request): View
   {
     $user = $request->user();
-    $paises = Pais::all();
-    $paisUser = Pais::find($user->pais_id);
+    $paises = Pais::paraElegir();
+    // "Seleccione un pais" no es un pais: en ese caso el usuario tiene que elegirlo
+    $paisUser = (int) $user->pais_id === Pais::SIN_PAIS ? null : Pais::find($user->pais_id);
 
     // dd($user, $usuario, $paises, $paisUser);
     // return view('profile.edit', [
@@ -35,6 +36,7 @@ class ProfileController extends Controller
   public function update(ProfileUpdateRequest $request): RedirectResponse
   {
     $request->user()->fill($request->validated());
+    $request->user()->phone = \App\Rules\TelefonoDelPais::normalizar($request->phone, \App\Models\Pais::find($request->pais_id)?->codigo_2);
 
     if ($request->user()->isDirty('email')) {
       $request->user()->email_verified_at = null;
@@ -50,6 +52,7 @@ class ProfileController extends Controller
 
     // dd($request);
     $request->user()->fill($request->validated());
+    $request->user()->phone = \App\Rules\TelefonoDelPais::normalizar($request->phone, \App\Models\Pais::find($request->pais_id)?->codigo_2);
 
     if ($request->user()->isDirty('email')) {
       $request->user()->email_verified_at = null;

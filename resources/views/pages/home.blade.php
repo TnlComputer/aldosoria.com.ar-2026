@@ -1,4 +1,9 @@
-@extends('layouts.app', ['page' => 'Inicio', 'pageSlug' => 'home'])
+@extends('layouts.app', [
+  'page' => 'Inicio',
+  'pageSlug' => 'home',
+  'title' => 'Soria Perfomance | Chiptuning, mecánica y electrónica en Morón',
+  'description' => 'Taller familiar en Morón con más de 27 años: chiptuning con banco de rodillos, reprogramación de ECU, mecánica y electrónica automotriz en Zona Oeste. Cursos online de WinOLS.',
+])
 
 @section('content')
 <div class="card">
@@ -6,7 +11,7 @@
 
     <x-sitio.hero titulo="Mecánica, electrónica y chiptuning en Zona Oeste"
       texto="Taller familiar con más de 27 años en Morón. Reparación y mantenimiento, electrónica automotor, reprogramación de ECU con banco de rodillos y cursos online de WinOLS."
-      whatsapp="Hola! Quisiera más información" :imagen="asset('black/img/soria perfomance auto.png')">
+      whatsapp="Hola! Quisiera más información" :imagen="asset('img/inicio/hero-auto.webp')" imagen-alt="Auto con el logo de Soria Perfomance">
       <a href="{{ route('chipMarcas') }}" class="btn btn-primary"><i class="tim-icons icon-zoom-split"></i> ¿Cuánto gana tu auto?</a>
       <a href="{{ route('cursos') }}" class="btn btn-secondary"><i class="tim-icons icon-video-66"></i> Cursos online</a>
       <x-slot:datos>
@@ -21,7 +26,7 @@
       <h2>Nuestros servicios</h2>
       <div class="pres-servicios">
         <a class="pres-servicio" href="{{ route('mecanica') }}">
-          <img src="{{ asset('black/img/Mecanica/mecanica1.jpg') }}" alt="" loading="lazy">
+          <img src="{{ asset('img/inicio/servicio-mecanica.webp') }}" alt="" loading="lazy" width="800" height="450">
           <div class="pres-servicio-cuerpo">
             <h3>Mecánica</h3>
             <p>Motores, tapas de cilindros, frenos y ABS, tren delantero, distribución, amortiguación y electricidad. Nafta y diésel.</p>
@@ -29,7 +34,7 @@
           </div>
         </a>
         <a class="pres-servicio" href="{{ route('electronica') }}">
-          <img src="{{ asset('black/img/Electronica/13607046.jpg') }}" alt="" loading="lazy">
+          <img src="{{ asset('img/inicio/servicio-electronica.webp') }}" alt="" loading="lazy" width="800" height="450">
           <div class="pres-servicio-cuerpo">
             <h3>Electrónica</h3>
             <p>Laboratorio propio: inyección, ABS, airbag, pin code, codificación de llaves e inmovilizadores.</p>
@@ -37,7 +42,7 @@
           </div>
         </a>
         <a class="pres-servicio" href="{{ route('chiptuning') }}">
-          <img src="{{ asset('black/img/evc-car.jpg') }}" alt="" loading="lazy">
+          <img src="{{ asset('img/inicio/servicio-chiptuning.webp') }}" alt="" loading="lazy" width="800" height="450">
           <div class="pres-servicio-cuerpo">
             <h3>Chiptuning</h3>
             <p>Reprogramación Stage 1, 2 y 3, cajas DSG y Launch Control. Medido antes y después en banco de rodillos.</p>
@@ -45,7 +50,7 @@
           </div>
         </a>
         <a class="pres-servicio" href="{{ route('cursos') }}">
-          <img src="{{ asset('img/cursos/Winols 5.png') }}" alt="" loading="lazy">
+          <img src="{{ asset('img/inicio/servicio-cursos.webp') }}" alt="" loading="lazy" width="800" height="450">
           <div class="pres-servicio-cuerpo">
             <h3>Cursos online</h3>
             <p>Aprendé WinOLS, mapas, pop &amp; bang e inyección con videos y archivos, a tu ritmo.</p>
@@ -53,7 +58,7 @@
           </div>
         </a>
         <a class="pres-servicio" href="{{ route('mantenimiento') }}">
-          <img src="{{ asset('black/img/mantenimiento-programado.jpg') }}" alt="" loading="lazy">
+          <img src="{{ asset('img/inicio/servicio-mantenimiento.webp') }}" alt="" loading="lazy" width="800" height="450">
           <div class="pres-servicio-cuerpo">
             <h3>Mantenimiento programado</h3>
             <p>Te avisamos por email cuándo cambiar aceite y filtros, y revisamos los 11 puntos clave de tu auto.</p>
@@ -86,14 +91,35 @@
     @endif
 
     <section class="pres-seccion">
+      <h2>Así trabajamos el chiptuning</h2>
+      <ol class="pres-lista inicio-pasos">
+        <li><strong>Medición inicial</strong> en el banco de rodillos: potencia y torque reales de tu auto.</li>
+        <li><strong>Reprogramación</strong> de la ECU con WinOLS, a medida de tu motor y del Stage elegido.</li>
+        <li><strong>Medición final</strong> en el banco, para comprobar la ganancia real.</li>
+      </ol>
+      <a href="{{ route('chipMarcas') }}" class="btn btn-primary btn-sm">Buscá tu vehículo</a>
+    </section>
+
+    <section class="pres-seccion">
       <h2>El taller</h2>
-      <div class="pres-galeria">
-        <img loading="lazy" src="{{ asset('black/img/Taller/20170215_140322.jpg') }}" alt="Taller Soria Perfomance">
-        <img loading="lazy" src="{{ asset('black/img/BancoPrueba/20170215_140315.jpg') }}" alt="Banco de rodillos">
-        <img loading="lazy" src="{{ asset('black/img/Laboratorio/20170215_140217.jpg') }}" alt="Laboratorio electrónico">
-        <img loading="lazy" src="{{ asset('black/img/Mecanica/mecanica2.jpg') }}" alt="Trabajos de mecánica">
+      <p class="inicio-galeria-intro">Banco de rodillos para probar el vehículo a alta velocidad sin salir del taller, laboratorio electrónico propio y sala de espera para que esperes tu trabajo o presupuesto con comodidad.</p>
+      <div class="inicio-galeria">
+        @foreach ([
+          ['taller-frente', 'Nuestro local en Morón'],
+          ['taller-nave', 'La nave del taller'],
+          ['taller-banco', 'Banco de rodillos'],
+          ['taller-laboratorio', 'Laboratorio electrónico'],
+          ['taller-recepcion', 'Recepción y sala de espera'],
+          ['taller-mecanica', 'Trabajos de mecánica'],
+        ] as [$foto, $epigrafe])
+        <figure>
+          <a href="{{ asset('img/inicio/' . $foto . '.webp') }}" target="_blank" rel="noopener">
+            <img src="{{ asset('img/inicio/' . $foto . '.webp') }}" alt="{{ $epigrafe }}" loading="lazy" width="1000" height="750">
+          </a>
+          <figcaption>{{ $epigrafe }}</figcaption>
+        </figure>
+        @endforeach
       </div>
-      <p>Banco de rodillos para probar el vehículo a alta velocidad sin salir del taller, laboratorio electrónico propio y sala de espera para que esperes tu trabajo o presupuesto con comodidad.</p>
     </section>
 
     @if ($novedades->isNotEmpty())
@@ -105,7 +131,7 @@
       <div class="tarjetas-medios">
         @foreach ($novedades as $novedad)
         <article class="tarjeta-medio">
-          <x-sitio.video :url="$novedad->uri_novedad" :titulo="$novedad->novedades" />
+          @include('pages.partials.novedad-media', ['novedad' => $novedad, 'origen' => ['1' => 'Facebook', '2' => 'Instagram', '3' => 'Twitter', '4' => 'YouTube'][(string) $novedad->tipo_novedad] ?? 'Web'])
           <div class="tarjeta-medio-cuerpo">
             <span class="tarjeta-medio-fecha">{{ \Carbon\Carbon::parse($novedad->fecha)->translatedFormat('d \d\e F \d\e Y') }}</span>
             <h3>{{ $novedad->novedades }}</h3>

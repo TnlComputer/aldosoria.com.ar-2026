@@ -3,7 +3,7 @@
 <section class="pres-seccion pres-contacto">
   <div>
     <h2>{{ $titulo }}</h2>
-    <p class="mb-0">Escribinos y te respondemos a la brevedad. Estamos en General A. J. de Sucre 1053, Morón, Buenos Aires.</p>
+    <p class="mb-0">Escribinos y te respondemos a la brevedad. Estamos en General A. J. de Sucre 1053/75, Morón, Buenos Aires.</p>
   </div>
   <div class="pres-contacto-botones">
     <a href="https://wa.me/{{ config('services.whatsapp') }}?text={{ rawurlencode($mensaje) }}" class="btn chip-whatsapp" target="_blank" rel="noopener noreferrer">

@@ -1,4 +1,8 @@
-@extends('layouts.app', ['page' => 'Chiptuning', 'pageSlug' => 'chiptuning'])
+@extends('layouts.app', [
+  'page' => 'Chiptuning y reprogramación de ECU',
+  'pageSlug' => 'chiptuning',
+  'description' => 'Chiptuning Stage 1, 2 y 3 en Morón, Buenos Aires: reprogramación de ECU con WinOLS, cajas DSG y Launch Control. Potencia medida antes y después en banco de rodillos.',
+])
 
 @section('content')
 <div class="card">

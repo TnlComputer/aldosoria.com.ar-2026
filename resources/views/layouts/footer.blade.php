@@ -1,57 +1,52 @@
-<footer class="footer">
-  <div class="container-fluid">
-    <span class="aling-middle ml-5">
-      <a class="afip" href="http://qr.afip.gob.ar/?qr=MG5a_WCRRvyhXRiEw1fP5Q,," target="_F960AFIPInfo"><img src="https://www.afip.gob.ar/images/f960/DATAWEB.jpg" border="0" aling="left" />
+<footer class="footer pie">
+  {{-- Llamada a la accion --}}
+  <div class="pie-cta">
+    <div>
+      <p class="pie-cta-titulo">¿Tu auto puede rendir más?</p>
+      <p class="pie-cta-texto">Pedí tu presupuesto de chiptuning, mecánica o electrónica. Te respondemos a la brevedad.</p>
+    </div>
+    <div class="pie-cta-botones">
+      <a href="https://wa.me/{{ config('services.whatsapp') }}?text={{ rawurlencode('Hola! Quisiera pedir un presupuesto') }}" class="btn chip-whatsapp" target="_blank" rel="noopener noreferrer">
+        <img src="{{ asset('black/img/social/whatsapp.svg') }}" alt="" width="20" height="20"> WhatsApp
       </a>
-    </span>
-    <span class="aling-middle ml-3">
-      <a class="whatsapp" href="https://api.whatsapp.com/send?phone=5491127154269&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20" target="_blank">
-        <img src=" {{ asset('black/img/social/whatsapp.svg') }}" alt="Whatsapp">
+      <a href="{{ route('contacto') }}" class="btn pie-cta-secundario">Escribinos</a>
+    </div>
+  </div>
+
+  <div class="pie-grilla">
+    <div class="pie-marca">
+      <a href="{{ route('home') }}" aria-label="Soria Perfomance, inicio">
+        <img src="{{ asset('img/inicio/logo-soria.webp') }}" alt="Soria Perfomance" width="200" height="59" loading="lazy">
       </a>
-    </span>
-    <span class="aling-middle ml-3">
-      <a class="telegram" href="https://t.me/Soriaperfomance" target="_blank">
-        <img src="{{ asset('black/img/social/telegram.svg') }}" alt="Telegram">
+      <p>Taller familiar en Morón con más de 27 años de experiencia. Banco de potencia propio, laboratorio electrónico y cursos online de reprogramación.</p>
+      <x-sitio.redes class="pie-redes" />
+    </div>
+
+    <nav class="pie-columna" aria-label="Servicios">
+      <h2>Servicios</h2>
+      <a href="{{ route('chiptuning') }}">Chiptuning</a>
+      <a href="{{ route('mecanica') }}">Mecánica</a>
+      <a href="{{ route('electronica') }}">Electrónica</a>
+      <a href="{{ route('mantenimiento') }}">Mantenimiento programado</a>
+      <a href="{{ route('cursos') }}">Cursos online</a>
+    </nav>
+
+    <div class="pie-columna pie-contacto">
+      <h2>Visitanos</h2>
+      <a href="https://www.google.com/maps/dir/?api=1&destination={{ rawurlencode('Soria Perfomance, General A. J. de Sucre 1053, Morón, Buenos Aires') }}" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+        <span>General A. J. de Sucre 1053/75<br><small>CP 1708 · Morón, Buenos Aires</small></span>
       </a>
-    </span>
-    <span class="aling-middle ml-3">
-      <a href="https://www.facebook.com/www.aldosoria.com.ar/" class="footerc" target="blank"><img src="{{ asset('black/img/social/facebook.svg') }}" alt="Facebook" title="Siguenos en Facebook" />
-      </a>
-      {{-- </span>
-    <span class="aling-middle ml-3"> --}}
-      <a href="https://twitter.com/aldosoria?lang=es" class="footerc" target="_blank"><img src="{{ asset('black/img/social/twitter.svg') }}" alt="Twitter" title="Siguenos en Twitter" />
-      </a>
-      {{-- </span>
-    <span class="aling-middle ml-3"> --}}
-      <a href="https://www.tiktok.com/@perfomancesoria?lang=es" class="footerc" target="_blank"><img src="{{ asset('black/img/social/tiktok.svg') }}" alt="Tiktok" title="Siguenos en Twitter" />
-      </a>
-      <a href="https://www.instagram.com/mecatronicasoria/" class="footerc" target="_blank"><img src="{{ asset('black/img/social/instagram.svg') }}" alt="Instagram" title="Siguenos en Instagram" />
-      </a>
-      {{-- </span>
-    <span class="aling-middle ml-3"> --}}
-      <a href="https://www.youtube.com/channel/UCz1Q_SBgdqp_ULPY8poUM1g" class="footerc" target="blank"><img src="{{ asset('black/img/social/youtube.svg') }}" alt="YouTube" title="Siguenos en YouTube" />
-      </a>
-    </span>
-    <span class=" copyright">
-      {{-- <div class="copyright"> --}}
-      &copy; {{ now()->year }} {{ __('by') }}
-      <a href="https://www.tnlcomputer.com.ar" target="_blank">{{ __('Tnlcomputer Desing') }}</a>
-    </span>
+      <a href="tel:+541144831235"><i class="fas fa-phone" aria-hidden="true"></i> <span>4483-1235 · 4629-8829 · 5294-4412</span></a>
+      <a href="mailto:info@aldosoria.com.ar"><i class="fas fa-envelope" aria-hidden="true"></i> <span>info@aldosoria.com.ar</span></a>
+      <a href="https://t.me/Soriaperfomance" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram-plane" aria-hidden="true"></i> <span>Telegram</span></a>
+    </div>
+  </div>
+
+  <div class="pie-base">
+    <span>&copy; {{ now()->year }} Soria Perfomance · <a href="https://www.tnlcomputer.com.ar" target="_blank" rel="noopener">Sitio por Tnlcomputer Design</a></span>
+    <a class="pie-afip" href="http://qr.afip.gob.ar/?qr=MG5a_WCRRvyhXRiEw1fP5Q,," target="_F960AFIPInfo" rel="noopener">
+      <img src="https://www.afip.gob.ar/images/f960/DATAWEB.jpg" alt="Data fiscal AFIP" width="36" height="49" loading="lazy">
+    </a>
   </div>
 </footer>
-{{-- <script type="text/javascript">
-  $(function() {
-    $('#wspButton').floatingWhatsApp({
-      phone: '5491127154269',
-      popupMessage: 'Hola, en que podemos ayudarte?',
-      message: '',
-      showPopup: false,
-      showOnIE: false,
-      headerTitle: 'Bienvenido a Soria Perfomance!',
-      headerColor: '#59d600',
-      backgroundColor: '#59d600',
-      buttonImage: '<img src="https://aldosoria.com.ar/images/whatsapp.svg" />',
-      position: 'right', //Position: left | right,
-    });
-  });
-</script> --}}

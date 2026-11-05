@@ -11,7 +11,7 @@
 @endif
 
 @if (\App\Support\AntiBot::turnstileActivo())
-<div class="cf-turnstile mt-4" data-sitekey="{{ config('services.turnstile.site_key') }}" data-language="es" data-theme="dark"></div>
+<div class="cf-turnstile mt-4" data-sitekey="{{ config('services.turnstile.site_key') }}" data-language="es" data-theme="auto"></div>
 @once
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 @endonce

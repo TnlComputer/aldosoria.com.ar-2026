@@ -1,4 +1,8 @@
-@extends('layouts.app', ['page' => 'Mecánica', 'pageSlug' => 'mecanica'])
+@extends('layouts.app', [
+  'page' => 'Mecánica del automotor en Morón',
+  'pageSlug' => 'mecanica',
+  'description' => 'Mecánica integral en Morón, Zona Oeste: motores, tapas de cilindros, frenos y ABS, tren delantero, distribución, amortiguación y electricidad. Nafta y diésel.',
+])
 
 @section('content')
 <div class="card">

@@ -1,4 +1,8 @@
-@extends('layouts.app', ['page' => 'Electrónica', 'pageSlug' => 'electronica'])
+@extends('layouts.app', [
+  'page' => 'Electrónica automotriz en Morón',
+  'pageSlug' => 'electronica',
+  'description' => 'Laboratorio de electrónica automotriz en Morón: reparación de módulos electrónicos, inyección, ABS, airbag, pin code, codificación de llaves e inmovilizadores.',
+])
 
 @section('content')
 <div class="card">

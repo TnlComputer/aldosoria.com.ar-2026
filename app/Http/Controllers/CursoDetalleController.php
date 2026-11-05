@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
+use App\Models\CursoPago;
 use App\Models\CursoVideoUri;
 use App\Models\Moneda;
 use App\Services\InscripcionCursoService;
 use App\Services\PayPalService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CursoDetalleController extends Controller
 {
@@ -46,6 +49,21 @@ class CursoDetalleController extends Controller
       ->orderBy('nro_video_id', 'ASC')
       ->get(['id', 'video_curso_id', 'nro_video_id', 'descripcion', 'img_video', 'tipo_curso']);
     $moneda = Moneda::find($datosCurso->moneda_id);
-    return view('pages.cursoDetalle', ['temarios' => $temarios, 'curso' => $datosCurso, 'moneda' => $moneda]);
+
+    // Si el alumno ya tiene el curso vigente, se le ofrece entrar en lugar de comprarlo otra vez
+    $accesoHasta = Auth::check()
+      ? CursoPago::where('user_curso_id', Auth::id())
+        ->where('video_curso_id', $datosCurso->id)
+        ->whereDate('vto_curso', '>=', now()->toDateString())
+        ->value('vto_curso')
+      : null;
+
+    return view('pages.cursoDetalle', [
+      'temarios' => $temarios,
+      'curso' => $datosCurso,
+      'moneda' => $moneda,
+      'accesoHasta' => $accesoHasta ? Carbon::parse($accesoHasta) : null,
+      'diasAcceso' => InscripcionCursoService::DIAS_ACCESO,
+    ]);
   }
 }

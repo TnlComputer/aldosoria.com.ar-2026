@@ -1,4 +1,8 @@
-@extends('layouts.app', ['page' => 'Representación oficial', 'pageSlug' => 'representacion'])
+@extends('layouts.app', [
+  'page' => 'Representante oficial EVC WinOLS y NAPRO',
+  'pageSlug' => 'representacion',
+  'description' => 'Soria Perfomance es representante en Latinoamérica de EVC (WinOLS) y del escáner NAPRO de Brasil. Venta de equipos y soporte en Argentina.',
+])
 
 @section('content')
 <div class="card">

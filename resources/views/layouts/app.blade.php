@@ -8,12 +8,7 @@
 
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ isset($page) ? $page . ' | ' : '' }}Soria Perfomance</title>
-  <meta name="description" content="Soria Perfomance: chiptuning, reprogramación de ECU, banco de pruebas, cursos online, mecánica y electrónica automotriz en Morón, Buenos Aires.">
-  <link rel="canonical" href="{{ url()->current() }}">
-  @if (request()->is('dashboard*', 'profile*', 'mercadopago*', 'curso/*'))
-  <meta name="robots" content="noindex, nofollow">
-  @endif
+  @include('layouts.seo')
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('black') }}/img/favicon.ico">
   <link rel="icon" type="image/png" href="{{ asset('black') }}/img/favicon.ico">
@@ -27,7 +22,7 @@
 
   <link href="{{ asset('black') }}/css/nucleo-icons.css" rel="stylesheet" />
   <!-- CSS -->
-  <link href="{{ asset('black') }}/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+  <link href="{{ asset('black') }}/css/black-dashboard.css?v={{ filemtime(public_path('black/css/black-dashboard.css')) }}" rel="stylesheet" />
   <link href="{{ asset('css/sitio.css') }}?v={{ filemtime(public_path('css/sitio.css')) }}" rel="stylesheet" />
 
 </head>

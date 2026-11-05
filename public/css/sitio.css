@@ -47,7 +47,7 @@ table th.bg-light,
 table td.bg-light,
 table th.bg-light strong,
 table td.bg-light strong {
-  color: #1e1e2f !important;
+  color: #111317 !important;
 }
 
 .table > tbody > tr > td {
@@ -191,7 +191,7 @@ table td.bg-light strong {
 .admin {
   --admin-borde: rgba(255, 255, 255, 0.08);
   --admin-suave: rgba(255, 255, 255, 0.6);
-  --admin-acento: #e14eca;
+  --admin-acento: #e10600;
 }
 
 /* Menu de secciones */
@@ -417,7 +417,7 @@ table td.bg-light strong {
 
 .admin-icono-borrar:hover {
   background: rgba(253, 93, 147, 0.2);
-  color: #fd5d93;
+  color: #ff4757;
 }
 
 /* Insignias */
@@ -433,8 +433,8 @@ table td.bg-light strong {
 }
 
 .admin-badge-ok { background: rgba(0, 242, 195, 0.15); color: #00f2c3; }
-.admin-badge-aviso { background: rgba(255, 141, 114, 0.18); color: #ff8d72; }
-.admin-badge-mal { background: rgba(253, 93, 147, 0.18); color: #fd5d93; }
+.admin-badge-aviso { background: rgba(255, 141, 114, 0.18); color: #ff7a00; }
+.admin-badge-mal { background: rgba(253, 93, 147, 0.18); color: #ff4757; }
 .admin-badge-info { background: rgba(29, 140, 248, 0.18); color: #5eabff; }
 
 /* Formularios */
@@ -461,7 +461,7 @@ table td.bg-light strong {
 }
 
 .admin-requerido {
-  color: #fd5d93;
+  color: #ff4757;
   margin-left: 3px;
 }
 
@@ -678,7 +678,7 @@ table td.bg-light strong {
 .chip {
   --chip-borde: rgba(255, 255, 255, 0.08);
   --chip-suave: rgba(255, 255, 255, 0.6);
-  --chip-acento: #e14eca;
+  --chip-acento: #e10600;
   --chip-ok: #00f2c3;
   color: rgba(255, 255, 255, 0.85);
 }
@@ -771,7 +771,7 @@ table td.bg-light strong {
 
 .chip-marca.activa {
   border-color: var(--chip-acento);
-  background: rgba(225, 78, 202, 0.12);
+  background: rgba(225, 6, 0, 0.12);
 }
 
 .chip-marca img {
@@ -950,7 +950,7 @@ table td.bg-light strong {
   display: block;
   height: 100%;
   border-radius: 6px;
-  background: linear-gradient(90deg, #e14eca, #ba54f5);
+  background: linear-gradient(90deg, #e10600, #ff5a1f);
 }
 
 .chip-etapa-original .chip-barra span {
@@ -1038,7 +1038,7 @@ table td.bg-light strong {
 .pres-hero {
   padding: 28px 24px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(225, 78, 202, 0.18), rgba(29, 140, 248, 0.12));
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.16), rgba(255, 122, 0, 0.06));
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1110,7 +1110,7 @@ table td.bg-light strong {
 }
 
 .pres-tarjeta h3 span {
-  color: #e14eca;
+  color: #ff4d3d;
 }
 
 .pres-tarjeta p,
@@ -1188,9 +1188,13 @@ table td.bg-light strong {
 }
 
 .pres-hero-imagen {
+  display: block;
+  justify-self: end;
   width: 100%;
-  max-height: 320px;
-  object-fit: cover;
+  max-width: 520px;
+  height: auto;
+  max-height: 60vh;
+  object-fit: contain;
   border-radius: 12px;
 }
 
@@ -1201,7 +1205,7 @@ table td.bg-light strong {
 
   .pres-hero-imagen {
     order: -1;
-    max-height: 200px;
+    justify-self: center;
   }
 }
 
@@ -1224,7 +1228,7 @@ table td.bg-light strong {
 
 a.pres-servicio:hover {
   transform: translateY(-3px);
-  border-color: #e14eca;
+  border-color: #e10600;
   text-decoration: none;
   color: inherit;
 }
@@ -1259,7 +1263,7 @@ a.pres-servicio:hover {
 
 .pres-servicio .pres-mas {
   margin-top: auto;
-  color: #e14eca;
+  color: #ff4d3d;
   font-size: 0.85rem;
   font-weight: 600;
 }
@@ -1290,7 +1294,7 @@ a.pres-servicio:hover {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #e14eca;
+  background: #e10600;
   color: #fff;
   font-size: 0.75rem;
   font-weight: 700;
@@ -1349,7 +1353,7 @@ a.pres-servicio:hover {
   gap: 14px;
   padding: 20px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(0, 242, 195, 0.1), rgba(29, 140, 248, 0.08));
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.1), rgba(255, 122, 0, 0.06));
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1482,7 +1486,7 @@ a.pres-servicio:hover {
 }
 
 .tarjeta-medio-precio {
-  color: #ff8d72;
+  color: #ff7a00;
   font-size: 1.3rem;
   font-weight: 600;
 }
@@ -1511,7 +1515,7 @@ a.pres-servicio:hover {
 
 .contacto-dato i {
   font-size: 1.2rem;
-  color: #e14eca;
+  color: #ff4d3d;
   margin-top: 3px;
 }
 
@@ -1545,4 +1549,1043 @@ a.pres-servicio:hover {
   .tarjetas-medios {
     grid-template-columns: 1fr;
   }
+}
+
+/* =========================================================
+   Cursos: tarjeta del listado y pagina de detalle
+   ========================================================= */
+.tarjeta-curso-media {
+  position: relative;
+}
+
+.tarjeta-curso-media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.tarjeta-curso-media .video-liviano,
+.tarjeta-curso-media .video-liviano-iframe {
+  border-radius: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.curso-etiqueta {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+.curso-etiqueta-tuyo {
+  background: #00b894;
+}
+
+.curso-etiqueta-libre {
+  background: #ff7a00;
+}
+
+.tarjeta-curso-tuyo {
+  border-color: rgba(0, 242, 195, 0.35);
+}
+
+.tarjeta-curso-enlace,
+.tarjeta-curso-enlace:hover {
+  color: inherit;
+}
+
+.tarjeta-curso-enlace:hover {
+  text-decoration: underline;
+}
+
+.tarjeta-medio .tarjeta-curso-clases {
+  margin-top: -6px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+}
+
+.curso-volver {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+.curso-volver:hover {
+  color: #fff;
+}
+
+.curso-cabecera {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding: 22px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.14), rgba(255, 122, 0, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.curso-media img,
+.curso-media .video-liviano,
+.curso-media .video-liviano-iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.curso-media-nota {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.8rem;
+}
+
+.curso-sobretitulo {
+  margin: 0 0 4px;
+  color: #ff4d3d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.curso-info h1 {
+  margin: 0 0 6px;
+  color: #fff;
+  font-size: 1.7rem;
+  line-height: 1.25;
+}
+
+.curso-subtitulo {
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+}
+
+.curso-datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.curso-datos li {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+}
+
+.curso-datos i {
+  margin-right: 4px;
+  color: #ff4d3d;
+}
+
+.curso-compra {
+  padding: 18px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.curso-precio {
+  margin: 0 0 12px;
+  color: #ff7a00;
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.curso-precio small {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.curso-compra-estado {
+  margin: 0 0 12px;
+  color: #00f2c3;
+}
+
+.curso-compra-nota {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.88rem;
+}
+
+.curso-metodos {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+}
+
+.curso-metodos legend {
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.curso-metodo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+  cursor: pointer;
+}
+
+.curso-metodo:has(input:checked) {
+  border-color: #e10600;
+  background: rgba(225, 6, 0, 0.1);
+}
+
+.curso-metodo img {
+  flex: 0 0 88px;
+  width: 88px;
+  height: 56px;
+  padding: 5px;
+  border-radius: 6px;
+  background: #fff;
+  object-fit: contain;
+}
+
+.curso-metodo small {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+.curso-compra .btn-block + .btn-block {
+  margin-top: 8px;
+}
+
+.curso-consulta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+.curso-consulta:hover {
+  color: #25d366;
+}
+
+.curso-temario {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.curso-temario li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.curso-temario li:last-child {
+  border-bottom: 0;
+}
+
+.curso-temario-nro {
+  flex: 0 0 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(225, 6, 0, 0.18);
+  color: #ff4d3d;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 28px;
+  text-align: center;
+}
+
+.curso-temario-texto {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.curso-temario-tipo {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 767.98px) {
+  .curso-cabecera {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 14px;
+  }
+
+  .curso-info h1 {
+    font-size: 1.4rem;
+  }
+
+  .curso-temario-tipo {
+    display: none;
+  }
+}
+
+/* =========================================================
+   Redes sociales, contacto y novedades
+   ========================================================= */
+.sitio-redes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sitio-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.82rem;
+}
+
+.sitio-red:hover {
+  border-color: #e10600;
+  color: #fff;
+}
+
+.contacto-rapido {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.contacto-rapido .btn {
+  margin: 0;
+}
+
+.contacto-titulo {
+  margin: 0 0 14px;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.contacto-temas-titulo {
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.contacto-temas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.contacto-tema {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+}
+
+.contacto-tema:hover,
+.contacto-tema.activo {
+  border-color: #e10600;
+  background: rgba(225, 6, 0, 0.12);
+  color: #fff;
+}
+
+.contacto-privacidad {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.novedad-destacada {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.novedad-destacada-media .video-liviano,
+.novedad-destacada-media .video-liviano-iframe,
+.novedad-destacada-media .novedad-externa {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+}
+
+.novedad-destacada-texto h2 {
+  margin: 0 0 6px;
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1.3;
+}
+
+.novedad-destacada-texto .tarjeta-medio-fecha {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.novedad-externa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #1b2a4a, #1a1d23);
+  color: #fff;
+  font-weight: 600;
+}
+
+.novedad-externa-facebook {
+  background: linear-gradient(135deg, #1877f2, #0c3d7a);
+}
+
+.novedad-externa-instagram {
+  background: linear-gradient(135deg, #f58529, #dd2a7b 50%, #8134af);
+}
+
+.novedad-externa:hover {
+  color: #fff;
+  filter: brightness(1.1);
+}
+
+@media (max-width: 767.98px) {
+  .novedad-destacada {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .contacto-rapido .btn {
+    flex: 1 1 auto;
+  }
+}
+
+/* =========================================================
+   Tema "rojo performance": ajustes sobre la plantilla
+   ========================================================= */
+body,
+.main-panel {
+  background: #111317;
+}
+
+.card {
+  background: #1a1d23;
+}
+
+a {
+  color: #ff4d3d;
+}
+
+a:hover,
+a:focus {
+  color: #ff7a66;
+}
+
+.btn-primary,
+.btn-primary:focus {
+  background: #e10600;
+  background-image: linear-gradient(to bottom left, #ff3b1f, #e10600, #b30500);
+  border-color: #e10600;
+}
+
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled):active {
+  background: #c40500 !important;
+  background-image: linear-gradient(to bottom left, #ff3b1f, #c40500, #9a0400) !important;
+}
+
+.form-control:focus {
+  border-color: #e10600;
+}
+
+/* =========================================================
+   Pie de pagina
+   ========================================================= */
+.footer.pie {
+  display: block;
+  padding: 36px 30px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0c0d10;
+}
+
+.pie-grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.pie-nombre {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.pie-nombre span {
+  color: #ff4d3d;
+}
+
+.pie-nombre:hover {
+  color: #fff;
+}
+
+.pie-marca p {
+  max-width: 340px;
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.pie-columna {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pie-columna h2 {
+  margin: 0 0 4px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pie-columna a {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.86rem;
+}
+
+.pie-columna a:hover {
+  color: #fff;
+}
+
+.pie-contacto i {
+  width: 16px;
+  margin-right: 4px;
+  color: #ff4d3d;
+}
+
+.pie-contacto img {
+  margin-right: 4px;
+  vertical-align: -3px;
+}
+
+.pie-contacto .btn {
+  margin: 4px 0 0;
+  color: #fff;
+}
+
+.pie-base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.78rem;
+}
+
+.pie-base-derecha {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pie-base a {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.pie-afip img {
+  display: block;
+  border-radius: 4px;
+}
+
+@media (max-width: 991.98px) {
+  .pie-grilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pie-marca {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .footer.pie {
+    padding: 28px 16px 16px;
+  }
+
+  .pie-grilla {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .pie-base {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Inicio: pasos del chiptuning y galeria del taller */
+.inicio-pasos {
+  margin-bottom: 14px;
+}
+
+.inicio-pasos strong {
+  color: #fff;
+}
+
+.inicio-galeria-intro {
+  max-width: 760px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.inicio-galeria {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.inicio-galeria figure {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.inicio-galeria img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.inicio-galeria a:hover img {
+  transform: scale(1.04);
+}
+
+.inicio-galeria figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 24px 12px 10px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.pres-servicio img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (max-width: 767.98px) {
+  .inicio-galeria {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+
+/* En escritorio la barra lateral es fija: el pie deja su lugar */
+@media (min-width: 992px) {
+  .footer.pie {
+    padding-left: 280px;
+  }
+}
+
+/* La plantilla centra y pone en linea el pie en celulares: se anula para este pie */
+.footer.pie,
+.footer.pie .pie-columna,
+.footer.pie .pie-marca {
+  text-align: left;
+}
+
+.footer.pie .pie-columna {
+  display: flex;
+  float: none;
+}
+
+.footer.pie .pie-columna a {
+  display: block;
+}
+
+.footer.pie .pie-contacto .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+}
+
+@media (max-width: 575.98px) {
+  .footer.pie .pie-grilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer.pie .pie-nombre {
+    display: block;
+  }
+}
+
+.footer.pie .sitio-redes {
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+/* Pie v2: franja de presupuesto, logo y 3 columnas */
+.pie-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 32px;
+  padding: 22px 26px;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #b30500, #e10600 55%, #ff5a1f);
+  box-shadow: 0 10px 30px rgba(225, 6, 0, 0.2);
+}
+
+.pie-cta-titulo {
+  margin: 0 0 4px;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.pie-cta-texto {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+}
+
+.pie-cta-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pie-cta-botones .btn {
+  margin: 0;
+}
+
+.footer.pie .pie-cta-secundario {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: transparent;
+  color: #fff;
+}
+
+.footer.pie .pie-cta-secundario:hover {
+  background: #fff;
+  color: #b30500;
+}
+
+.footer.pie .pie-grilla {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 36px;
+}
+
+.pie-marca > a > img {
+  display: block;
+  width: 200px;
+  height: auto;
+  margin-bottom: 14px;
+}
+
+.footer.pie .pie-contacto a {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.footer.pie .pie-contacto i {
+  flex: 0 0 16px;
+  margin: 3px 0 0;
+  text-align: center;
+}
+
+.pie-contacto small {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.pie-base .pie-afip {
+  margin-left: auto;
+}
+
+@media (max-width: 991.98px) {
+  .footer.pie .pie-grilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 575.98px) {
+  .footer.pie .pie-grilla {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+  }
+
+  .pie-cta {
+    padding: 18px;
+  }
+
+  .pie-cta-botones,
+  .pie-cta-botones .btn {
+    flex: 1 1 auto;
+  }
+}
+
+/* =========================================================
+   Mis cursos (panel del alumno)
+   ========================================================= */
+.panel-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding: 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(225, 6, 0, 0.14), rgba(255, 122, 0, 0.05));
+}
+
+.panel-cabecera h1 {
+  margin: 0 0 4px;
+  color: #fff;
+  font-size: 1.7rem;
+}
+
+.panel-resumen {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.panel-accesos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.panel-accesos .btn {
+  margin: 0;
+}
+
+.panel-vacio {
+  padding: 48px 20px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  text-align: center;
+}
+
+.panel-vacio i {
+  margin-bottom: 12px;
+  color: #ff4d3d;
+  font-size: 2.4rem;
+}
+
+.panel-vacio h2 {
+  margin: 0 0 6px;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.panel-vacio p {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.panel-cursos {
+  display: grid;
+  gap: 16px;
+}
+
+.panel-curso {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.panel-curso-imagen {
+  position: relative;
+}
+
+.panel-curso-imagen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  object-fit: cover;
+}
+
+.panel-curso-vencido .panel-curso-imagen img {
+  filter: grayscale(0.8) brightness(0.7);
+}
+
+.curso-etiqueta-aviso {
+  background: #ff7a00;
+}
+
+.panel-curso-cuerpo {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px;
+}
+
+.panel-curso-cuerpo h2 {
+  margin: 0 0 4px;
+  color: #fff;
+  font-size: 1.25rem;
+}
+
+.panel-curso-subtitulo {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.panel-curso-cuerpo .curso-datos {
+  margin-bottom: 12px;
+}
+
+.panel-temario {
+  margin-bottom: 14px;
+}
+
+.panel-temario summary {
+  color: #ff4d3d;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.panel-temario ol {
+  margin: 10px 0 0;
+  padding-left: 22px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.88rem;
+}
+
+.panel-temario li {
+  padding: 3px 0;
+}
+
+.panel-curso-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.panel-curso-acciones .btn {
+  margin: 0;
+}
+
+.panel-ayuda {
+  margin: 24px 0 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+@media (max-width: 767.98px) {
+  .panel-curso {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel-curso-imagen img {
+    aspect-ratio: 16 / 9;
+    height: auto;
+    min-height: 0;
+  }
+
+  .panel-curso-acciones .btn {
+    flex: 1 1 auto;
+  }
+}
+
+.curso-metodo span {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.curso-metodo span small {
+  font-weight: 400;
+}
+
+.curso-metodo-off {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.curso-metodo-off img {
+  filter: grayscale(0.4);
+}
+
+.curso-metodo-off a {
+  color: #ff7a66;
+  text-decoration: underline;
+}
+
+/* Selector del metodo de pago con los colores del sitio */
+.curso-metodo input[type="radio"] {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: #e10600;
+  cursor: pointer;
+}
+
+.curso-metodo-off input[type="radio"] {
+  cursor: default;
 }

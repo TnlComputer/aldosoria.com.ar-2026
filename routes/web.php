@@ -25,6 +25,7 @@ use App\Http\Controllers\NoveltyController;
 use App\Http\Controllers\PaypalCardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepresentationController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -40,6 +41,7 @@ Route::get('/chiptuning/marcas', [ChipMarcasController::class, 'index'])->name('
 Route::get('/representacion', [RepresentationController::class, 'index'])->name('representacion');
 Route::get('/mantenimientos', [MaintenanceController::class, 'index'])->name('mantenimiento');
 Route::get('/contactos', [ContactController::class, 'index'])->name('contacto');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::post('/envio_contacto', [ContactController::class, 'enviar'])->middleware('throttle:contacto')->name('contacto.enviar');
 

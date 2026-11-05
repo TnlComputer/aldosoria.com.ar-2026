@@ -1,4 +1,8 @@
-@extends('layouts.app', ['page' => 'Cursos online', 'pageSlug' => 'cursos'])
+@extends('layouts.app', [
+  'page' => 'Cursos online de WinOLS y reprogramación',
+  'pageSlug' => 'cursos',
+  'description' => 'Cursos online de reprogramación de ECU con WinOLS: creación de mapas, pop & bang, EGR/DTC e inyección. Videos y archivos de trabajo, a tu ritmo.',
+])
 
 @section('content')
 <div class="card">

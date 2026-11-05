@@ -1,4 +1,4 @@
-@props(['titulo', 'texto' => null, 'whatsapp' => null, 'imagen' => null])
+@props(['titulo', 'texto' => null, 'whatsapp' => null, 'imagen' => null, 'imagenAlt' => ''])
 
 <div @class(['pres-hero', 'pres-hero-con-imagen' => $imagen])>
   <div class="pres-hero-texto">
@@ -14,7 +14,7 @@
     @endif
   </div>
   @if ($imagen)
-  <img class="pres-hero-imagen" src="{{ $imagen }}" alt="" fetchpriority="high">
+  <img class="pres-hero-imagen" src="{{ $imagen }}" alt="{{ $imagenAlt }}" width="1024" height="779" fetchpriority="high">
   @endif
   @isset($datos)
   <div class="pres-datos">{{ $datos }}</div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Pais;
 use App\Models\User;
+use App\Rules\TelefonoDelPais;
 use App\Providers\RouteServiceProvider;
 use App\Support\AntiBot;
 use App\Support\Reglas;
@@ -25,9 +26,14 @@ class RegisteredUserController extends Controller
    */
   public function create(): View
   {
-    $paises = Pais::all();
+    return view('auth.register', Pais::paraElegir() + ['ejemplos' => self::ejemplosTelefono()]);
+  }
 
-    return view('auth.register', ["paises" => $paises]);
+  /** Ejemplo de telefono por pais, para mostrarlo debajo del campo segun el pais elegido */
+  public static function ejemplosTelefono(): array
+  {
+    return Pais::where('id', '!=', Pais::SIN_PAIS)->whereNotNull('codigo_2')->pluck('codigo_2', 'id')
+      ->map(fn ($iso) => TelefonoDelPais::ejemplo($iso))->filter()->all();
   }
 
   /**
@@ -49,10 +55,10 @@ class RegisteredUserController extends Controller
     $request->validate([
       'name' => Reglas::nombre(),
       'last_name' => Reglas::nombre(),
-      'phone' => [...Reglas::telefono(), 'unique:' . User::class],
+      'phone' => [...Reglas::telefono(), 'unique:' . User::class, new TelefonoDelPais($request->pais_id)],
       'email' => [...Reglas::email(), 'unique:' . User::class],
       'password' => ['required', 'confirmed', Rules\Password::defaults()],
-      'pais_id' => ['required', 'integer', 'exists:pais,id'],
+      'pais_id' => \App\Models\Pais::regla(),
       'whatsapp' => Reglas::siNo(),
       'tlgram' => Reglas::siNo(),
     ], [
@@ -67,10 +73,16 @@ class RegisteredUserController extends Controller
       throw ValidationException::withMessages(['last_name' => 'Revisá el apellido ingresado.']);
     }
 
+    // El telefono se guarda siempre en formato internacional; tampoco puede repetirse escrito de otra forma
+    $telefono = TelefonoDelPais::normalizar($request->phone, Pais::find($request->pais_id)?->codigo_2);
+    if (User::where('phone', $telefono)->exists()) {
+      throw ValidationException::withMessages(['phone' => 'Ese teléfono ya está registrado.']);
+    }
+
     $user = new User([
       'name' => $request->name,
       'last_name' => $request->last_name,
-      'phone' => $request->phone,
+      'phone' => $telefono,
       'email' => $request->email,
       'pais_id' => $request->pais_id,
       'whatsapp' => $request->whatsapp,

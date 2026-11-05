@@ -1,4 +1,8 @@
-@extends('layouts.app', ['page' => 'Mantenimiento programado', 'pageSlug' => 'mantenimiento'])
+@extends('layouts.app', [
+  'page' => 'Mantenimiento programado',
+  'pageSlug' => 'mantenimiento',
+  'description' => 'Mantenimiento programado de tu auto en Morón: te avisamos por email cuándo cambiar aceite y filtros y revisamos los 11 puntos clave del vehículo.',
+])
 
 @section('content')
 <div class="card">

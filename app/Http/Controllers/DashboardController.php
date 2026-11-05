@@ -26,13 +26,14 @@ class DashboardController extends Controller
       ->join('cursos as cur', 'cur.id', '=', 'curp.video_curso_id')
       ->where('curp.user_curso_id', '=', Auth::id())
       ->select('curp.id', 'curp.video_curso_id', 'curp.user_curso_id', 'curp.vto_curso', 'cur.name', 'cur.title', 'cur.image_curso', 'cur.video_demo_Uri')
-      ->orderBy('cur.id', 'asc')
+      ->orderByDesc('curp.vto_curso')
+      ->orderBy('cur.id')
       ->paginate(6);
 
     // Solo el temario de los cursos que se muestran en esta pagina
     $temarios = CursoVideoUri::whereIn('video_curso_id', $cursosPagos->pluck('video_curso_id'))
       ->orderBy('nro_video_id')
-      ->get(['video_curso_id', 'descripcion']);
+      ->get(['video_curso_id', 'descripcion', 'tipo_curso']);
 
     return view('pages.dashboard', ['cursosPagos' => $cursosPagos, 'temarios' => $temarios]);
   }

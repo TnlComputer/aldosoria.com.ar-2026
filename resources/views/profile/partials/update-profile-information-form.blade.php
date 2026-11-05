@@ -36,11 +36,7 @@
       <div>
         <x-input-label for="pais_id" class="col-md-2" :value="__('Pais')" />
         <select name="pais_id" id="pais_id" required class="block mt-1 col-md-4">
-          <option value="{{ $user->pais_id }}">{{ $paisUser->nombre }}</option>
-          @foreach ($paises as $pais)
-          <option value="{{$pais->id}}">{{ $pais->nombre }}</option>
-          @endforeach
-          </option>
+          <x-opciones-pais :frecuentes="$paises['frecuentes']" :resto="$paises['resto']" :seleccionado="old('pais_id', $paisUser?->id)" />
         </select>
         <x-input-error class="mt-2" :messages="$errors->get('pais_id')" />
       </div>

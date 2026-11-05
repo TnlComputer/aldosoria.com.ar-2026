@@ -142,8 +142,13 @@ class SeguridadTest extends TestCase
     Schema::create('pais', function (Blueprint $t) {
       $t->id();
       $t->string('nombre')->nullable();
+      $t->string('codigo_2', 2)->nullable();
     });
-    \DB::table('pais')->insert(['id' => 1, 'nombre' => 'Argentina']);
+    \DB::table('pais')->insert([
+      ['id' => 1, 'nombre' => 'Argentina', 'codigo_2' => 'AR'],
+      ['id' => 2, 'nombre' => 'Chile', 'codigo_2' => 'CL'],
+      ['id' => \App\Models\Pais::SIN_PAIS, 'nombre' => 'Seleccione un pais', 'codigo_2' => null],
+    ]);
 
     \DB::table('monedas')->insert(['id' => 2, 'moneda' => 'EUR', 'simbolo' => '€', 'cambio' => 1000]);
 
@@ -755,5 +760,154 @@ class SeguridadTest extends TestCase
     $this->get('/thanks')
       ->assertHeader('X-Frame-Options', 'SAMEORIGIN')
       ->assertHeader('X-Content-Type-Options', 'nosniff');
+  }
+
+  public function test_paginas_de_cursos_muestran_el_estado_de_compra(): void
+  {
+    \App\Models\CursoVideoUri::create(['video_curso_id' => $this->curso->id, 'nombre_curso' => 'ECU', 'descripcion' => 'Clase uno', 'tipo_curso' => 1, 'uri_video' => 'https://player.vimeo.com/video/333333333']);
+    \App\Models\CursoVideoUri::create(['video_curso_id' => $this->curso->id, 'nombre_curso' => 'ECU', 'descripcion' => 'Archivos de trabajo', 'tipo_curso' => 2, 'archivo1_curso' => 'trabajo.rar']);
+    $detalle = '/cursos/detalle/' . $this->curso->id;
+
+    // Visitante: ve temario, precio, acceso y como crear cuenta
+    $this->get($detalle)->assertOk()
+      ->assertSee('Clase uno')->assertSee('1 clase en video')->assertSee('1 entrega con archivos')
+      ->assertSee(\App\Services\InscripcionCursoService::DIAS_ACCESO . ' días de acceso')
+      ->assertSee('Crear cuenta')->assertDontSee('Comprar curso')
+      ->assertDontSee('333333333')->assertDontSee('trabajo.rar');
+    $this->get('/cursos')->assertOk()->assertSee('2 clases')->assertDontSee('Ya lo tenés');
+
+    // Alumno sin el curso: puede comprarlo
+    $this->actingAs($this->alumno)->get($detalle)->assertSee('Comprar curso')->assertDontSee('Ya tenés este curso');
+
+    // Alumno con el curso vigente: se le ofrece entrar, no comprarlo de nuevo
+    CursoPago::create(['user_curso_id' => $this->alumno->id, 'video_curso_id' => $this->curso->id, 'vto_curso' => now()->addDays(5)]);
+    $this->actingAs($this->alumno)->get($detalle)->assertSee('Ya tenés este curso')->assertSee('Ir a Mis cursos')->assertDontSee('Comprar curso');
+    $this->actingAs($this->alumno)->get('/cursos')->assertSee('Ya lo tenés')->assertSee('Ir al curso');
+  }
+
+  public function test_novedades_y_contacto(): void
+  {
+    \App\Models\Novedad::create(['novedades' => 'Video viejo de Facebook', 'fecha' => now()->subYear(), 'uri_novedad' => ' https://www.facebook.com/mecatronicaaldo.soria/videos/1', 'tipo_novedad' => 1, 'foto_novedad' => 2]);
+    \App\Models\Novedad::create(['novedades' => 'Stage 2 en el banco', 'fecha' => now(), 'uri_novedad' => 'https://www.youtube.com/embed/abcdefghijk', 'tipo_novedad' => 4, 'foto_novedad' => 1]);
+
+    // La mas reciente va destacada; Facebook no se embebe (no lo permite), se enlaza
+    $this->get('/novedades')->assertOk()
+      ->assertSeeInOrder(['Lo último', 'Stage 2 en el banco', 'Más videos', 'Video viejo de Facebook'])
+      ->assertSee('href="https://www.facebook.com/mecatronicaaldo.soria/videos/1"', false)
+      ->assertDontSee('<iframe src="https://www.facebook.com', false);
+
+    // El asunto puede venir precargado, sin HTML
+    $this->get('/contactos?asunto=' . urlencode('<b>Turno para el taller</b>'))->assertOk()
+      ->assertSee('value="Turno para el taller"', false)->assertDontSee('<b>Turno', false);
+  }
+
+  public function test_seo_sitemap_fichas_y_datos_estructurados(): void
+  {
+    $ficha = \App\Models\Marcas_autos::create(['marca' => 'Volkswagen', 'modelo' => 'Golf GTI', 'motor' => '2.0 TSI', 'potencia_original' => '230 HP', 'stage1' => '300 HP']);
+
+    // Sitemap con paginas, cursos y cada ficha
+    $this->get('/sitemap.xml')->assertOk()
+      ->assertHeader('Content-Type', 'application/xml; charset=UTF-8')
+      ->assertSee(route('cursoDetalle.show', $this->curso->id), false)
+      ->assertSee(e(route('chipMarcas', ['ficha' => $ficha->id])), false)
+      ->assertSee(e(route('chipMarcas', ['marca' => 'Volkswagen'])), false);
+
+    // Cada ficha es una pagina propia para Google
+    $this->get('/chiptuning/marcas?ficha=' . $ficha->id)->assertOk()
+      ->assertSee('<title>Chiptuning Volkswagen Golf GTI 2.0 TSI | Soria Perfomance</title>', false)
+      ->assertSee('<link rel="canonical" href="' . e(route('chipMarcas', ['ficha' => $ficha->id])) . '">', false)
+      ->assertSee('de 230 HP a 300 HP en Stage 1');
+    // Las busquedas libres no generan paginas duplicadas
+    $this->get('/chiptuning/marcas?q=golf')->assertSee('<link rel="canonical" href="' . route('chipMarcas') . '">', false);
+
+    // Negocio local en el inicio y curso con precio en su detalle
+    $inicio = $this->get('/')->assertOk()->assertSee('property="og:image"', false)->getContent();
+    preg_match('~<script type="application/ld\+json">(.*?)</script>~s', $inicio, $m);
+    $this->assertSame('AutoRepair', json_decode($m[1], true)['@type']);
+    $detalle = $this->get('/cursos/detalle/' . $this->curso->id)->getContent();
+    preg_match('~<script type="application/ld\+json">(.*?)</script>~s', $detalle, $m);
+    $curso = json_decode($m[1], true);
+    $this->assertSame('Course', $curso['@type']);
+    $this->assertSame((string) $this->curso->coast, $curso['offers']['price']);
+
+    // Lo privado no se indexa
+    $this->actingAs($this->alumno)->get('/dashboard')->assertSee('noindex, nofollow', false);
+    $this->get('/cursos')->assertSee('index, follow', false);
+  }
+
+  public function test_mis_cursos_muestra_estado_vacio_vigente_y_vencido(): void
+  {
+    // Sin cursos: mensaje claro (antes la pantalla quedaba vacia)
+    $this->actingAs($this->alumno)->get('/dashboard')->assertOk()
+      ->assertSee('Todavía no tenés cursos')->assertSee('Ver cursos disponibles');
+
+    // Vigente: entra al curso
+    $pago = CursoPago::create(['user_curso_id' => $this->alumno->id, 'video_curso_id' => $this->curso->id, 'vto_curso' => now()->addDays(10)]);
+    $this->actingAs($this->alumno)->get('/dashboard')
+      ->assertSee('Entrar al curso')->assertSee('Disponible')->assertDontSee('Todavía no tenés cursos');
+
+    // Por vencer y vencido
+    $pago->update(['vto_curso' => now()->addDays(2)]);
+    $this->actingAs($this->alumno)->get('/dashboard')->assertSee('Vence en 2 días');
+    $pago->update(['vto_curso' => now()->subDays(3)]);
+    $this->actingAs($this->alumno)->get('/dashboard')
+      ->assertSee('Vencido')->assertSee('Renovar acceso')->assertDontSee('Entrar al curso');
+  }
+
+  public function test_el_registro_exige_un_telefono_del_pais_elegido(): void
+  {
+    // "Seleccione un pais" no es un pais
+    $this->post('/register', $this->registro(['pais_id' => \App\Models\Pais::SIN_PAIS]))->assertSessionHasErrors('pais_id');
+
+    // Numero de Chile con Argentina elegida
+    $this->post('/register', $this->registro(['phone' => '+56 9 8970 0668']))
+      ->assertSessionHasErrors(['phone' => 'Ese teléfono es de Chile, pero elegiste Argentina. Corregí el país o el número.']);
+
+    // Numero inventado
+    $this->post('/register', $this->registro(['phone' => '123456']))->assertSessionHasErrors('phone');
+    $this->assertSame(0, User::where('email', 'nuevo@example.com')->count());
+
+    // Correcto: se guarda en formato internacional
+    $this->post('/register', $this->registro(['phone' => '11 5824-5077']))->assertSessionHasNoErrors();
+    $this->assertSame('+54 11 5824-5077', User::where('email', 'nuevo@example.com')->value('phone'));
+    auth()->logout();
+
+    // El mismo telefono escrito de otra forma no puede registrarse de nuevo
+    $this->post('/register', $this->registro(['email' => 'otro@example.com', 'phone' => '+54 11 5824 5077']))
+      ->assertSessionHasErrors('phone');
+
+    // Con Chile elegido, el numero chileno es valido
+    $this->post('/register', $this->registro(['email' => 'chile@example.com', 'pais_id' => 2, 'phone' => '+56 9 8970 0668']))
+      ->assertSessionHasNoErrors();
+  }
+
+  public function test_el_formulario_de_registro_lista_paises_sin_la_opcion_de_relleno(): void
+  {
+    $this->get('/register')->assertOk()
+      ->assertSee('Más frecuentes')->assertSee('>Argentina</option>', false)
+      ->assertDontSee('Seleccione un pais');
+  }
+
+  public function test_turnstile_activo_frena_bots_y_deja_pasar_personas(): void
+  {
+    config(['services.turnstile.site_key' => '0x4AAAAprueba', 'services.turnstile.secret' => 'secreto-prueba']);
+
+    // El widget aparece en los formularios
+    $this->get('/register')->assertSee('class="cf-turnstile', false)->assertSee('challenges.cloudflare.com/turnstile', false);
+    $this->get('/contactos')->assertSee('data-sitekey="0x4AAAAprueba"', false);
+
+    // Primera consulta a Cloudflare: no es una persona; segunda: si
+    \Illuminate\Support\Facades\Http::fake(['challenges.cloudflare.com/*' => \Illuminate\Support\Facades\Http::sequence()
+      ->push(['success' => false])
+      ->push(['success' => true])]);
+
+    // Cloudflare dice que no es una persona: se rechaza
+    $this->post('/register', $this->registro(['cf-turnstile-response' => 'token-falso']))->assertSessionHasErrors('antibot');
+    $this->assertSame(0, User::where('email', 'nuevo@example.com')->count());
+
+    // Cloudflare la verifica: se registra
+    $this->post('/register', $this->registro(['cf-turnstile-response' => 'token-bueno']))->assertSessionHasNoErrors();
+    $this->assertSame(1, User::where('email', 'nuevo@example.com')->count());
+    \Illuminate\Support\Facades\Http::assertSent(fn ($r) => $r['secret'] === 'secreto-prueba' && $r['response'] === 'token-bueno');
   }
 }

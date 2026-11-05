@@ -24,16 +24,14 @@
       <div>
         <x-input-label for="phone" :value="__('Teléfono')" />
         <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" required
-          autocomplete="tel" maxlength="30" placeholder="+54 9 11 1234-5678" />
+          autocomplete="tel" maxlength="30" placeholder="Elegí primero tu país" aria-describedby="phone-ayuda" />
+        <p id="phone-ayuda" class="mt-1 text-xs text-gray-500 dark:text-gray-400">Tiene que ser un número del país que elegís.</p>
         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
       </div>
       <div>
         <x-input-label for="pais_id" :value="__('País')" />
         <select name="pais_id" id="pais_id" required class="{{ $selectClases }}" autocomplete="country">
-          <option value="">Seleccione su país</option>
-          @foreach ($paises as $pais)
-          <option value="{{ $pais->id }}" @selected(old('pais_id') == $pais->id)>{{ $pais->nombre }}</option>
-          @endforeach
+          <x-opciones-pais :frecuentes="$frecuentes" :resto="$resto" :seleccionado="old('pais_id')" />
         </select>
         <x-input-error :messages="$errors->get('pais_id')" class="mt-2" />
       </div>
@@ -88,4 +86,22 @@
       </x-primary-button>
     </div>
   </form>
+
+  {{-- Muestra un ejemplo de telefono del pais elegido --}}
+  <script>
+    (function () {
+      var ejemplos = @json($ejemplos);
+      var pais = document.getElementById('pais_id');
+      var tel = document.getElementById('phone');
+      var ayuda = document.getElementById('phone-ayuda');
+      function actualizar() {
+        var ej = ejemplos[pais.value];
+        tel.placeholder = ej || 'Elegí primero tu país';
+        ayuda.textContent = ej ? 'Número de ese país, por ejemplo: ' + ej : 'Tiene que ser un número del país que elegís.';
+      }
+      pais.addEventListener('change', actualizar);
+      actualizar();
+    })();
+  </script>
+
 </x-guest-layout>

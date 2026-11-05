@@ -8,3 +8,5 @@ Disallow: /reset-password
 Disallow: /mercadopago
 Disallow: /paypal
 Disallow: /livewire
+
+Sitemap: https://aldosoria.com.ar/sitemap.xml

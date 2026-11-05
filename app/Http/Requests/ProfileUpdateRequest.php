@@ -19,8 +19,8 @@ class ProfileUpdateRequest extends FormRequest
     return [
       'name' => Reglas::nombre(),
       'last_name' => Reglas::nombre(),
-      'phone' => Reglas::telefono(),
-      'pais_id' => ['required', 'integer', 'exists:pais,id'],
+      'phone' => [...Reglas::telefono(), new \App\Rules\TelefonoDelPais($this->input('pais_id'))],
+      'pais_id' => \App\Models\Pais::regla(),
       'whatsapp' => Reglas::siNo(),
       'tlgram' => Reglas::siNo(),
       'email' => [...Reglas::email(), Rule::unique(User::class)->ignore($this->user()->id)],
