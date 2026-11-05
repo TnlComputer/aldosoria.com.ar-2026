@@ -179,13 +179,14 @@ class SeguridadTest extends TestCase
   private function pagoMercadoPago(array $cambios = []): array
   {
     return array_merge([
-      'id' => 123456,
-      'status' => 'approved',
+      'id' => 'ORD01TEST123456',
+      'status' => 'processed',
+      'status_detail' => 'accredited',
       'external_reference' => 'u' . $this->alumno->id . '-c' . $this->curso->id . '-abcdefghij',
-      'metadata' => ['monto' => 50000],
-      'transaction_amount' => 50000,
-      'currency_id' => 'ARS',
-      'order' => ['id' => 999],
+      'total_amount' => '50000.00',
+      'total_paid_amount' => '50000.00',
+      'currency' => 'ARS',
+      'transactions' => ['payments' => [['id' => 'PAY01TEST123456', 'status' => 'processed', 'status_detail' => 'accredited']]],
     ], $cambios);
   }
 
@@ -383,7 +384,11 @@ class SeguridadTest extends TestCase
     Http::fake(['api.mercadopago.com/*' => Http::response(['message' => 'not found'], 404)]);
 
     $this->actingAs($this->alumno)
-      ->get('/mercadopago/success?payment_id=1&external_reference=' . $this->curso->id)
+      ->get('/mercadopago/success?order_id=ORD01FALSO&external_reference=' . $this->curso->id)
+      ->assertViewIs('pages.failure');
+
+    $this->actingAs($this->alumno)
+      ->get('/mercadopago/success?order_id=../../v1/payments/1')
       ->assertViewIs('pages.failure');
 
     $this->assertSame(0, CursoPago::count());
@@ -391,20 +396,63 @@ class SeguridadTest extends TestCase
 
   public function test_mercadopago_pago_aprobado_habilita_el_curso_una_sola_vez(): void
   {
-    Http::fake(['api.mercadopago.com/*' => Http::response($this->pagoMercadoPago())]);
+    Http::fake(['api.mercadopago.com/v1/orders/ORD01TEST123456' => Http::response($this->pagoMercadoPago())]);
 
-    $this->actingAs($this->alumno)->get('/mercadopago/success?payment_id=123456')->assertViewIs('pages.thanks');
-    $this->postJson('/mercadopago/webhook', ['type' => 'payment', 'data' => ['id' => '123456']])->assertOk();
+    $this->actingAs($this->alumno)->get('/mercadopago/success?order_id=ORD01TEST123456')->assertViewIs('pages.thanks');
+    $this->postJson('/mercadopago/webhook', ['type' => 'order', 'action' => 'order.processed', 'data' => ['id' => 'ORD01TEST123456']])->assertOk();
 
     $this->assertSame(1, CursoPago::count());
     $this->assertSame(1, CursoUsuario::count());
   }
 
+  public function test_mercadopago_crea_la_order_con_el_precio_del_servidor_y_la_verifica_al_volver(): void
+  {
+    Http::fake([
+      'api.mercadopago.com/v1/orders' => Http::response(['id' => 'ORD01TEST123456', 'status' => 'created', 'checkout_url' => 'https://www.mercadopago.com.ar/checkout/v1/redirect?order_id=ORD01TEST123456'], 201),
+      'api.mercadopago.com/v1/orders/ORD01TEST123456' => Http::response($this->pagoMercadoPago()),
+    ]);
+
+    $this->actingAs($this->alumno)
+      ->postJson('/mercadopago/create_order', ['curso_id' => $this->curso->id, 'precio' => 1])
+      ->assertOk()
+      ->assertJson(['checkout_url' => 'https://www.mercadopago.com.ar/checkout/v1/redirect?order_id=ORD01TEST123456']);
+
+    Http::assertSent(function ($request) {
+      return $request->url() === 'https://api.mercadopago.com/v1/orders'
+        && $request->hasHeader('X-Idempotency-Key')
+        && $request['total_amount'] === '50000.00'
+        && $request['items'][0]['unit_price'] === '50000.00'
+        && str_starts_with($request['external_reference'], 'u' . $this->alumno->id . '-c' . $this->curso->id . '-');
+    });
+
+    // MercadoPago puede volver sin order_id: se usa la order guardada en la sesion
+    $this->actingAs($this->alumno)->get('/mercadopago/success')->assertViewIs('pages.thanks');
+    $this->assertSame(1, CursoPago::count());
+  }
+
+  public function test_la_pagina_de_pago_de_mercadopago_usa_el_boton_de_redireccion(): void
+  {
+    $this->actingAs($this->alumno)->post('/curso/detalle', ['curso_id' => $this->curso->id, 'metodoPago' => 'mp'])
+      ->assertOk()
+      ->assertViewIs('pages.pagoMercadoPago')
+      ->assertSee('mercadopago-pagar', false)
+      ->assertSee('create_order', false)
+      ->assertDontSee('sdk.mercadopago.com', false);
+  }
+
+  public function test_mercadopago_order_pendiente_muestra_pendiente(): void
+  {
+    Http::fake(['api.mercadopago.com/*' => Http::response($this->pagoMercadoPago(['status' => 'action_required', 'status_detail' => 'waiting_payment', 'total_paid_amount' => '0.00']))]);
+
+    $this->actingAs($this->alumno)->get('/mercadopago/success?order_id=ORD01TEST123456')->assertViewIs('pages.pending');
+    $this->assertSame(0, CursoPago::count());
+  }
+
   public function test_mercadopago_rechaza_importe_menor(): void
   {
-    Http::fake(['api.mercadopago.com/*' => Http::response($this->pagoMercadoPago(['transaction_amount' => 1]))]);
+    Http::fake(['api.mercadopago.com/*' => Http::response($this->pagoMercadoPago(['total_paid_amount' => '1.00']))]);
 
-    $this->actingAs($this->alumno)->get('/mercadopago/success?payment_id=123456')->assertViewIs('pages.failure');
+    $this->actingAs($this->alumno)->get('/mercadopago/success?order_id=ORD01TEST123456')->assertViewIs('pages.failure');
     $this->assertSame(0, CursoPago::count());
   }
 
@@ -412,7 +460,7 @@ class SeguridadTest extends TestCase
   {
     Http::fake(['api.mercadopago.com/*' => Http::response($this->pagoMercadoPago(['external_reference' => 'u' . $this->admin->id . '-c' . $this->curso->id . '-x']))]);
 
-    $this->actingAs($this->alumno)->get('/mercadopago/success?payment_id=123456')->assertViewIs('pages.failure');
+    $this->actingAs($this->alumno)->get('/mercadopago/success?order_id=ORD01TEST123456')->assertViewIs('pages.failure');
     $this->assertSame(0, CursoPago::where('user_curso_id', $this->alumno->id)->count());
   }
 
@@ -421,12 +469,12 @@ class SeguridadTest extends TestCase
     config(['services.mercadopago.webhook_secret' => 'clave']);
     Http::fake(['api.mercadopago.com/*' => Http::response($this->pagoMercadoPago())]);
 
-    $this->postJson('/mercadopago/webhook', ['type' => 'payment', 'data' => ['id' => '123456']], ['x-signature' => 'ts=1,v1=malo'])
+    $this->postJson('/mercadopago/webhook', ['type' => 'order', 'data' => ['id' => 'ORD01TEST123456']], ['x-signature' => 'ts=1,v1=malo'])
       ->assertStatus(401);
 
     $ts = '1700000000';
-    $firma = hash_hmac('sha256', 'id:123456;request-id:req-1;ts:' . $ts . ';', 'clave');
-    $this->postJson('/mercadopago/webhook', ['type' => 'payment', 'data' => ['id' => '123456']], ['x-signature' => "ts=$ts,v1=$firma", 'x-request-id' => 'req-1'])
+    $firma = hash_hmac('sha256', 'id:ord01test123456;request-id:req-1;ts:' . $ts . ';', 'clave');
+    $this->postJson('/mercadopago/webhook?data.id=ORD01TEST123456&type=order', ['type' => 'order', 'data' => ['id' => 'ORD01TEST123456']], ['x-signature' => "ts=$ts,v1=$firma", 'x-request-id' => 'req-1'])
       ->assertOk();
 
     $this->assertSame(1, CursoPago::count());

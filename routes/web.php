@@ -61,7 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/curso/detalle', [CursoDetalleController::class, 'pago'])->name('cursoDetalle.pago');
 
   Route::prefix('mercadopago')->middleware('throttle:pagos')->group(function () {
-    Route::post('/create_preference', [MercadoPagoController::class, 'createPreference'])->name('mercadopago.payment.createPreference');
+    Route::post('/create_order', [MercadoPagoController::class, 'createOrder'])->name('mercadopago.payment.createOrder');
     Route::get('/success', [MercadoPagoController::class, 'success'])->name('mercadopago.success');
     Route::get('/failure', [MercadoPagoController::class, 'failure'])->name('mercadopago.failure');
     Route::get('/pending', [MercadoPagoController::class, 'pending'])->name('mercadopago.pending');

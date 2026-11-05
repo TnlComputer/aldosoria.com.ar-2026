@@ -10,46 +10,56 @@ use Illuminate\Support\Facades\Log;
 
 class MercadoPagoController extends Controller
 {
+  /** Clave de sesion con la ultima order creada por el alumno. */
+  private const SESION_ORDEN = 'mercadopago_order_id';
+
   public function __construct(private MercadoPagoService $mercadoPago)
   {
   }
 
-  public function createPreference(Request $request)
+  /**
+   * Crea la order en MercadoPago y devuelve la URL de pago a la que se redirige al alumno.
+   */
+  public function createOrder(Request $request)
   {
     $datos = $request->validate([
       'curso_id' => ['required', 'integer', 'exists:cursos,id'],
     ]);
 
     try {
-      $preferenceId = $this->mercadoPago->crearPreferencia(Auth::user(), Curso::findOrFail($datos['curso_id']));
-
-      return response()->json(['preference_id' => $preferenceId]);
+      $orden = $this->mercadoPago->crearOrden(Auth::user(), Curso::findOrFail($datos['curso_id']));
     } catch (\Throwable $e) {
-      Log::error('Error al crear la preferencia de Mercado Pago: ' . $e->getMessage());
+      Log::error('Error al crear la order de Mercado Pago: ' . $e->getMessage());
 
-      return response()->json(['error' => 'Error al crear la preferencia de Mercado Pago'], 500);
+      return response()->json(['error' => 'No se pudo iniciar el pago con Mercado Pago'], 500);
     }
+
+    // Al volver de MercadoPago se verifica esta order aunque no llegue en la URL
+    $request->session()->put(self::SESION_ORDEN, $orden['id']);
+
+    return response()->json(['checkout_url' => $orden['checkout_url']]);
   }
 
   /**
-   * Notificaciones de MercadoPago. El pago siempre se verifica contra su API.
+   * Notificaciones de MercadoPago (evento "Order"). La order siempre se verifica contra su API.
    */
   public function webhook(Request $request)
   {
-    $tipo = $request->input('type', $request->input('topic'));
-    $paymentId = (string) $request->input('data.id', $request->input('id', ''));
+    $tipo = $request->input('type', $request->query('topic'));
+    // data.id llega en el cuerpo JSON y/o en la URL (PHP convierte "data.id" en "data_id")
+    $orderId = (string) $request->input('data.id', $request->query('data_id', ''));
 
-    if ($tipo !== 'payment' || !ctype_digit($paymentId)) {
+    if ($tipo !== 'order' || !MercadoPagoService::idValido($orderId)) {
       return response()->json(['message' => 'ignorado']);
     }
 
-    if (!$this->mercadoPago->firmaValida($request->header('x-signature'), $request->header('x-request-id'), $paymentId)) {
-      Log::warning('MercadoPago: notificacion con firma invalida', ['payment_id' => $paymentId, 'ip' => $request->ip()]);
+    if (!$this->mercadoPago->firmaValida($request->header('x-signature'), $request->header('x-request-id'), $orderId)) {
+      Log::warning('MercadoPago: notificacion con firma invalida', ['order_id' => $orderId, 'ip' => $request->ip()]);
       return response()->json(['error' => 'firma invalida'], 401);
     }
 
     try {
-      $this->mercadoPago->acreditar($paymentId);
+      $this->mercadoPago->acreditar($orderId);
     } catch (\Throwable $e) {
       Log::error('Error en el webhook de Mercado Pago: ' . $e->getMessage());
       return response()->json(['error' => 'Error en el webhook de Mercado Pago'], 500);
@@ -60,24 +70,25 @@ class MercadoPagoController extends Controller
 
   public function success(Request $request)
   {
-    $paymentId = (string) $request->query('payment_id', '');
+    $orderId = (string) $request->query('order_id', $request->session()->get(self::SESION_ORDEN, ''));
 
-    if (!ctype_digit($paymentId)) {
+    if (!MercadoPagoService::idValido($orderId)) {
       return view('pages.failure');
     }
 
     try {
-      if ($this->mercadoPago->acreditar($paymentId, Auth::user())) {
+      if ($this->mercadoPago->acreditar($orderId, Auth::user())) {
+        $request->session()->forget(self::SESION_ORDEN);
         return view('pages.thanks');
       }
 
-      $estado = $this->mercadoPago->obtenerPago($paymentId)['status'] ?? null;
+      $orden = $this->mercadoPago->obtenerOrden($orderId);
     } catch (\Throwable $e) {
       Log::error('Error al verificar el pago de Mercado Pago: ' . $e->getMessage());
-      $estado = null;
+      $orden = null;
     }
 
-    return in_array($estado, ['pending', 'in_process', 'authorized'], true)
+    return $orden && MercadoPagoService::estaPendiente($orden)
       ? view('pages.pending')
       : view('pages.failure');
   }
