@@ -18,7 +18,7 @@
         <div class="pres-dato"><strong>27 años</strong><span>en la Zona Oeste</span></div>
         <div class="pres-dato"><strong>300 km/h</strong><span>de prueba en banco de rodillos</span></div>
         <div class="pres-dato"><strong>{{ $fichas }}</strong><span>vehículos reprogramados de {{ $marcas }} marcas</span></div>
-        <div class="pres-dato"><strong>NAPRO</strong><span>representantes oficiales</span></div>
+        <div class="pres-dato"><strong>NAPRO</strong><span>representante oficial</span></div>
       </x-slot:datos>
     </x-sitio.hero>
 
