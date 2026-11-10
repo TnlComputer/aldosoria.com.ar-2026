@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-  'page' => 'Representante oficial EVC WinOLS y NAPRO',
+  'page' => 'Representante oficial NAPRO',
   'pageSlug' => 'representacion',
-  'description' => 'Soria Perfomance es representante en Latinoamérica de EVC (WinOLS) y del escáner NAPRO de Brasil. Venta de equipos y soporte en Argentina.',
+  'description' => 'Soria Perfomance es representante oficial del escáner de diagnóstico NAPRO de Brasil. Venta de equipos y soporte en Argentina.',
 ])
 
 @section('content')
@@ -9,60 +9,10 @@
   <div class="card-body">
 
     <x-sitio.hero titulo="Representación oficial"
-      texto="Somos los únicos representantes en Latinoamérica de EVC Electronic (Alemania), creadores de WinOLS, y los únicos autorizados en el país para vender los equipos de diagnóstico NAPRO Electronic de Brasil."
-      whatsapp="Hola! Quiero información sobre WinOLS / NAPRO">
-      <a href="#evc" class="btn btn-primary">EVC · WinOLS</a>
-      <a href="#napro" class="btn btn-secondary">NAPRO · Diagnóstico</a>
+      texto="Somos los únicos autorizados en el país para vender los equipos de diagnóstico NAPRO Electronic de Brasil."
+      whatsapp="Hola! Quiero información sobre NAPRO">
+      <a href="#napro" class="btn btn-primary">NAPRO · Diagnóstico</a>
     </x-sitio.hero>
-
-    {{-- EVC / WinOLS --}}
-    <section class="pres-seccion" id="evc">
-      <div class="pres-dos">
-        <div>
-          <img src="{{ asset('black/img/logoevc.jpg') }}" alt="EVC Electronic" loading="lazy" style="max-width:220px;background:#fff;padding:6px;border-radius:8px;margin-bottom:12px">
-          <h2>EVC Electronic · WinOLS</h2>
-          <p>EVC es la empresa alemana creadora de <strong>WinOLS</strong>, el editor de mapas que se convirtió en el estándar de la industria para los tuners profesionales, además de una amplia línea de productos de programación.</p>
-          <p>Te asesoramos para equipar tu taller o tu empresa de chiptuning.</p>
-          <a href="https://www.evc.de" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary">Sitio de EVC</a>
-          <a href="https://www.evc.de/en/service/" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-secondary">Soporte EVC</a>
-        </div>
-        <img src="{{ asset('black/img/WinOls_Components.jpg') }}" alt="Componentes de WinOLS" loading="lazy">
-      </div>
-    </section>
-
-    <section class="pres-seccion">
-      <h2>Trainings WinOLS</h2>
-      <div class="pres-tarjetas">
-        <div class="pres-tarjeta">
-          <h3><span>Reconocidos</span> por EVC</h3>
-          <p>Capacitaciones oficiales avaladas por EVC Electronic.</p>
-        </div>
-        <div class="pres-tarjeta">
-          <h3>100% personalizados</h3>
-          <p>Cursos individuales según las aptitudes y necesidades de cada profesional.</p>
-        </div>
-        <div class="pres-tarjeta">
-          <h3>Fechas a convenir</h3>
-          <p>Presenciales los fines de semana, o a tu ritmo con nuestros <a href="{{ route('cursos') }}">cursos online</a>.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="pres-seccion">
-      <h2>Qué podés hacer con WinOLS</h2>
-      <div class="pres-dos">
-        <ul class="pres-lista pres-lista-check" style="grid-template-columns:1fr">
-          <li>Encontrar, nombrar y editar los mapas de la ECU, con vista 2D, 3D, tabla o hexadecimal</li>
-          <li>Detección automática del procesador y búsqueda de números de ECU y software</li>
-          <li>Hasta 200 versiones comentadas por cada archivo original</li>
-          <li>Proyectos con datos del cliente, del vehículo e imágenes, fáciles de filtrar y encontrar</li>
-          <li>Corrección de checksum integrada y actualizable</li>
-          <li>Importa y exporta binarios, Intel y Motorola Hex; envío directo por email</li>
-          <li>Compatible con BDM100, BSL100 y OLS300</li>
-        </ul>
-        <img src="{{ asset('black/img/evc_vdat_110.jpg') }}" alt="Hardware de EVC" loading="lazy">
-      </div>
-    </section>
 
     {{-- NAPRO --}}
     <section class="pres-seccion" id="napro">
@@ -118,7 +68,7 @@
 
     @include('pages.partials.formas-pago')
 
-    <x-sitio.contacto titulo="¿Querés equipar tu taller?" mensaje="Hola! Quiero información sobre WinOLS / NAPRO" />
+    <x-sitio.contacto titulo="¿Querés equipar tu taller?" mensaje="Hola! Quiero información sobre NAPRO" />
   </div>
 </div>
 @endsection

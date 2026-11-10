@@ -18,7 +18,7 @@
         <div class="pres-dato"><strong>27 años</strong><span>en la Zona Oeste</span></div>
         <div class="pres-dato"><strong>300 km/h</strong><span>de prueba en banco de rodillos</span></div>
         <div class="pres-dato"><strong>{{ $fichas }}</strong><span>vehículos reprogramados de {{ $marcas }} marcas</span></div>
-        <div class="pres-dato"><strong>EVC · NAPRO</strong><span>representantes oficiales</span></div>
+        <div class="pres-dato"><strong>NAPRO</strong><span>representantes oficiales</span></div>
       </x-slot:datos>
     </x-sitio.hero>
 
@@ -66,10 +66,10 @@
           </div>
         </a>
         <a class="pres-servicio" href="{{ route('representacion') }}">
-          <img src="{{ asset('black/img/logosRepre5.png') }}" alt="" loading="lazy" style="object-fit:contain;background:#fff">
+          <img src="{{ asset('black/img/napro.jpg') }}" alt="" loading="lazy" style="object-fit:contain;background:#fff">
           <div class="pres-servicio-cuerpo">
             <h3>Representación oficial</h3>
-            <p>Únicos representantes en Latinoamérica de EVC (WinOLS) y del escáner NAPRO de Brasil.</p>
+            <p>Únicos autorizados en el país para vender el escáner de diagnóstico NAPRO de Brasil.</p>
             <span class="pres-mas">Ver equipos →</span>
           </div>
         </a>
